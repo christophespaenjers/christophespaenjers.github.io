@@ -116,6 +116,11 @@ ul.papers .paper-meta {
   color: var(--muted);
   font-size: 0.95rem;
 }
+ul.papers .paper-conferences {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+}
 ul.papers .paper-links {
   font-size: 0.9rem;
   margin-top: 0.15rem;
