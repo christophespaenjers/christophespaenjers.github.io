@@ -1,10 +1,62 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Website Under Construction</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Christophe Spaenjers</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to My Website</h1>
-    <p>This site is currently under construction. Please check back later!</p>
+<div class="container">
+
+  <header class="site-header">
+    <div class="site-name"><a href="index.html">Christophe Spaenjers</a></div>
+    <nav class="site-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="working-papers.html">Working Papers</a>
+      <a href="publications.html">Publications</a>
+      <a href="discussions.html">Recent Discussions</a>
+      <a href="cv.pdf">CV</a>
+    </nav>
+  </header>
+
+  <section class="intro">
+    <img class="profile" src="photo.jpg" alt="Christophe Spaenjers">
+    <div>
+    <p>
+      I am Professor of Finance and Michael A. Klump Endowed Chair of Real Estate at the
+      <a href="https://www.colorado.edu/business/">Leeds School of Business</a>,
+      University of Colorado Boulder. I am also the Faculty Director of the
+      <a href="https://www.colorado.edu/business/klump-center">Michael A. Klump Center for Real Estate</a>.
+    </p>
+    <p>
+      My research interests include real estate, private equity, art markets, household finance, and financial history.
+      My work has been published in the <em>American Economic Review</em>, <em>Journal of Finance</em>,
+      <em>Review of Financial Studies</em>, <em>Journal of Financial Economics</em>, and
+      <em>Management Science</em>, among others.
+    </p>
+    <p>
+      I serve as Associate Editor at <em>Management Science</em> and Editorial Board Member at <em>Real Estate Economics</em>.
+    </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>
+      <a href="mailto:christophe.spaenjers@colorado.edu">christophe.spaenjers@colorado.edu</a>
+    </p>
+    <p>
+      <a href="https://scholar.google.com/citations?user=aMoG0UkAAAAJ&hl=en">Google Scholar</a> &middot;
+      <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1513498">SSRN</a> &middot;
+      <a href="https://www.linkedin.com/in/christophespaenjers/">LinkedIn</a>
+    </p>
+  </section>
+
+  <footer class="site-footer">
+    &copy; <span id="year"></span> Christophe Spaenjers.
+  </footer>
+</div>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

@@ -1,4 +1,6 @@
-/* Clean academic style, inspired by paulgp.com */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+/* Clean academic style */
 :root {
   --text: #222;
   --muted: #666;
@@ -16,8 +18,8 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 17px;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
   line-height: 1.6;
 }
 
@@ -95,7 +97,6 @@ section h3 {
   margin-top: 1.25rem;
   margin-bottom: 0.5rem;
   color: var(--muted);
-  font-style: italic;
   font-weight: normal;
 }
 
@@ -114,7 +115,6 @@ ul.papers .paper-title {
 ul.papers .paper-meta {
   color: var(--muted);
   font-size: 0.95rem;
-  font-style: italic;
 }
 ul.papers .paper-links {
   font-size: 0.9rem;
