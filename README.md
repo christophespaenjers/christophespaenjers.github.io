@@ -2,29 +2,26 @@
 
 A clean, multi-page academic site. Pure HTML + CSS, no build step.
 
+Live at **https://christophespaenjers.github.io**
+
 ## Files
-- `index.html` — Home (bio, contact, news)
-- `research.html` — Working papers and publications
-- `teaching.html` — Courses
-- `cv.html` — CV summary (with link to PDF)
-- `style.css` — Shared styles
-- `profile.jpg` — Add your headshot here (referenced from index.html)
-- `cv.pdf` — Add your CV here (referenced from index.html and cv.html)
-
-## Edit
-Open the `.html` files in any text editor and replace the placeholder content.
-The navigation bar lives in each page (look for `<nav class="site-nav">`); update the `class="active"` to mark the current page.
-
-## Deploy to GitHub Pages
-
-1. Create a new repository on GitHub named **`christophespaenjers.github.io`**
-   (the repo name must exactly match `<username>.github.io`).
-2. Upload all files in this folder to that repository (drag & drop in the GitHub web UI works).
-3. In the repo, go to **Settings → Pages** and confirm "Deploy from a branch" → `main` → `/ (root)`.
-4. Within a minute, your site will be live at **https://christophespaenjers.github.io**.
-
-### Custom domain (optional)
-If you own e.g. `christophespaenjers.com`, add a file named `CNAME` containing just that domain to the repo root, then point the domain's DNS to GitHub Pages (`A` records for `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`).
+- `index.html` — Home (bio, photo, contact links)
+- `working-papers.html` — Working papers with SSRN links
+- `publications.html` — Publications categorized by Real Estate, Art & Auctions, Households
+- `discussions.html` — Recent conference discussions with slides
+- `cv.pdf` — CV (linked directly from nav)
+- `photo.jpg` — Profile photo
+- `style.css` — Shared styles (Montserrat font via Google Fonts)
 
 ## Local preview
-Just double-click `index.html` to open it in your browser. No server needed.
+Run a local server from this folder:
+```
+python3 -m http.server 8000
+```
+Then open http://localhost:8000 in your browser.
+
+## Deploy
+Push to the `main` branch of `christophespaenjers/christophespaenjers.github.io` on GitHub. GitHub Pages deploys automatically.
+
+### Custom domain (optional)
+Add a file named `CNAME` containing your domain (e.g. `christophespaenjers.com`) to the repo root, then point the domain's DNS to GitHub Pages (`A` records for `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`).
