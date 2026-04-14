@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CV — Christophe Spaenjers</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <header class="site-header">
+    <div class="site-name"><a href="index.html">Christophe Spaenjers</a></div>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="cv.html" class="active">CV</a>
+    </nav>
+  </header>
+
+  <section>
+    <p>Download my full CV as a <a href="cv.pdf">PDF</a>.</p>
+  </section>
+
+  <section>
+    <h2>Academic Positions</h2>
+    <ul class="papers">
+      <li>
+        <div class="paper-title">Professor of Finance</div>
+        <div class="paper-meta">Leeds School of Business, University of Colorado Boulder · Year–present</div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <ul class="papers">
+      <li>
+        <div class="paper-title">PhD, Field</div>
+        <div class="paper-meta">Institution · Year</div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Editorial &amp; Professional Service</h2>
+    <ul>
+      <li>Associate Editor, <em>Management Science</em></li>
+      <li>Editorial Board Member, <em>Real Estate Economics</em></li>
+    </ul>
+  </section>
+
+  <footer class="site-footer">
+    &copy; <span id="year"></span> Christophe Spaenjers.
+  </footer>
+</div>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

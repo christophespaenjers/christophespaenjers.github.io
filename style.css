@@ -1,0 +1,140 @@
+/* Clean academic style, inspired by paulgp.com */
+:root {
+  --text: #222;
+  --muted: #666;
+  --link: #8b0000;
+  --link-hover: #b22222;
+  --border: #e5e5e5;
+  --bg: #ffffff;
+  --max-width: 860px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover { color: var(--link-hover); text-decoration: underline; }
+
+/* Header / nav */
+header.site-header {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+.site-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--text);
+}
+.site-name a { color: inherit; text-decoration: none; }
+
+nav.site-nav {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+nav.site-nav a {
+  margin-right: 1rem;
+  color: var(--muted);
+}
+nav.site-nav a.active,
+nav.site-nav a:hover {
+  color: var(--link);
+}
+
+/* Home / intro layout */
+.intro {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1.75rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+.intro img.profile {
+  width: 180px;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.intro h1 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.5rem;
+}
+.intro .title {
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+/* Sections */
+section { margin-top: 2.25rem; }
+section h2 {
+  font-size: 1.2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+section h3 {
+  font-size: 1rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-style: italic;
+  font-weight: normal;
+}
+
+ul.papers {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ul.papers li {
+  margin-bottom: 1rem;
+  padding-left: 0;
+}
+ul.papers .paper-title {
+  font-weight: bold;
+}
+ul.papers .paper-meta {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-style: italic;
+}
+ul.papers .paper-links {
+  font-size: 0.9rem;
+  margin-top: 0.15rem;
+}
+
+footer.site-footer {
+  margin-top: 4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .intro {
+    grid-template-columns: 1fr;
+  }
+  .intro img.profile {
+    width: 140px;
+  }
+}

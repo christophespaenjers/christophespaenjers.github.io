@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teaching — Christophe Spaenjers</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <header class="site-header">
+    <div class="site-name"><a href="index.html">Christophe Spaenjers</a></div>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html" class="active">Teaching</a>
+      <a href="cv.html">CV</a>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Current Courses</h2>
+    <ul class="papers">
+      <li>
+        <div class="paper-title">Course title</div>
+        <div class="paper-meta">Program / Level · Institution · Year</div>
+        <p>Short description of the course.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Past Courses</h2>
+    <ul class="papers">
+      <li>
+        <div class="paper-title">Course title</div>
+        <div class="paper-meta">Program / Level · Institution · Year</div>
+      </li>
+    </ul>
+  </section>
+
+  <footer class="site-footer">
+    &copy; <span id="year"></span> Christophe Spaenjers.
+  </footer>
+</div>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
