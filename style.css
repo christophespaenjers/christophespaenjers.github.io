@@ -146,8 +146,11 @@ table.cv-table .cv-year {
   white-space: nowrap;
   font-size: 0.95rem;
 }
+table.cv-table .cv-detail td:first-child {
+  padding-left: 2rem;
+}
 table.cv-table .cv-detail td:last-child {
-  padding-left: 2.5rem;
+  padding-left: 0.5rem;
 }
 
 footer.site-footer {
