@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ghent · a restaurant map</title>
+<meta name="description" content="An interactive map of restaurants in Ghent, with a link to a description on Le Fooding (where available) and to the restaurant's own website." />
+<meta property="og:title" content="Ghent · a restaurant map" />
+<meta property="og:description" content="An interactive map of restaurants in Ghent — tap a pin for a description and the restaurant's website." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+  :root{
+    --bg:#FAF7F2;
+    --surface:#FFFFFF;
+    --ink:#1A1A1A;
+    --muted:#6B6B6B;
+    --line:rgba(0,0,0,0.10);
+    --accent:#D4537E;
+    --accent-ink:#72243E;
+    --link:#185FA5;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;-webkit-font-smoothing:antialiased}
+  .page{max-width:1000px;margin:0 auto;padding:32px 20px 48px}
+  header{margin-bottom:20px}
+  .kicker{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 8px;font-weight:500}
+  h1{font-size:32px;font-weight:500;margin:0 0 6px;line-height:1.15}
+  .lede{font-size:15px;color:var(--muted);margin:0;line-height:1.55;max-width:62ch}
+  .map{height:520px;width:100%;border-radius:14px;border:0.5px solid var(--line);overflow:hidden;background:#eee;margin:24px 0 20px}
+  .legend{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:0.5px solid var(--line);border-radius:999px;background:var(--surface);font-size:13px;color:var(--ink);cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
+  .chip:hover{background:#F4EDE3;border-color:rgba(0,0,0,0.18)}
+  .chip .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+  footer{margin-top:28px;padding-top:20px;border-top:0.5px solid var(--line);font-size:13px;color:var(--muted);line-height:1.6}
+  footer a{color:var(--link);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  .pin{background:var(--accent);width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center}
+  .pin span{transform:rotate(45deg);color:#fff;font-size:12px;font-weight:600;font-family:inherit}
+  .gh-pop{font-family:inherit;min-width:220px}
+  .gh-pop h3{margin:0 0 4px;font-size:16px;font-weight:500;color:#1a1a1a}
+  .gh-pop .meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 6px}
+  .gh-pop .cat{font-size:12px;color:#6b6b6b;margin:0;flex:1}
+  .gh-pop .price{font-size:12px;color:#6b6b6b;letter-spacing:0.5px;font-weight:500;white-space:nowrap}
+  .gh-pop .addr{font-size:12px;color:#6b6b6b;margin:0 0 12px;line-height:1.5}
+  .gh-pop .links{display:flex;flex-direction:column;gap:8px}
+  .gh-pop .links a{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--link);text-decoration:none;font-weight:500}
+  .gh-pop .links a:hover{text-decoration:underline}
+  .leaflet-popup-content-wrapper{border-radius:12px}
+  .leaflet-popup-content{margin:14px 16px}
+  @media (max-width:600px){
+    h1{font-size:26px}
+    .map{height:440px}
+    .page{padding:24px 16px 40px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <p class="kicker">A taste of Ghent</p>
+    <h1>Ghent · a restaurant map</h1>
+    <p class="lede">A personal selection of restaurants in Ghent. Tap a pin (or a chip below) for the restaurant's website and, where available, a description on <a href="https://lefooding.com/en/search/restaurant/place/ghent-19955" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Le Fooding</a>.</p>
+  </header>
+
+  <div id="map" class="map" role="region" aria-label="Map of Ghent restaurants"></div>
+
+  <div id="legend" class="legend" aria-label="Restaurant list"></div>
+
+  <footer>
+    Price guide (per person, food only): € moderate · €€ mid-range · €€€ high-end. · Map tiles by <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a> · data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+  var spots = [
+    {n:1,  name:"Oak",       cat:"Neo-bistro · Michelin star",         price:"€€€", addr:"Hoogstraat 167, 9000 Gent",             lat:51.055985, lng:3.711009, fooding:"https://lefooding.com/en/restaurants/oak",      web:"https://oakgent.be"},
+    {n:2,  name:"Publiek",   cat:"Neo-bistro · Michelin star",         price:"€€€", addr:"Ham 39, 9000 Gent",                     lat:51.057822, lng:3.732872, fooding:"https://lefooding.com/en/restaurants/publiek",  web:"https://www.publiekgent.be/en"},
+    {n:3,  name:"Vrijmoed",  cat:"Two Michelin stars · creative",      price:"€€€", addr:"Vlaanderenstraat 22, 9000 Gent",        lat:51.051066, lng:3.728887, fooding:null,                                            web:"https://www.vrijmoed.be/en"},
+    {n:4,  name:"Rizoom",    cat:"Original chef's menu",               price:"€€",  addr:"Nieuwewandeling 62, 9000 Gent",         lat:51.055266, lng:3.706625, fooding:"https://lefooding.com/en/restaurants/rizoom",   web:"https://www.rizoomgent.be/"},
+    {n:5,  name:"Roots",     cat:"Neo-bistro · Patershol",             price:"€€",  addr:"Vrouwebroersstraat 5, 9000 Gent",       lat:51.058234, lng:3.722235, fooding:"https://lefooding.com/en/restaurants/roots",    web:"https://www.rootsgent.be"},
+    {n:6,  name:"Elders",    cat:"Original chef's menu",               price:"€€",  addr:"Edmond Van Beverenplein 16, 9000 Gent", lat:51.072788, lng:3.709347, fooding:"https://lefooding.com/en/restaurants/elders",   web:"https://elders.gent"},
+    {n:7,  name:"Commotie",  cat:"Original chef's menu · fire-driven", price:"€€€", addr:"Victor Braeckmanlaan 367, 9040 Gent",   lat:51.062021, lng:3.760927, fooding:"https://lefooding.com/en/restaurants/commotie", web:"https://www.commotiegent.be"},
+    {n:8,  name:"Debra",     cat:"Neo-bistro · Patershol",             price:"€€",  addr:"Lange Steenstraat 10, 9000 Gent",       lat:51.058589, lng:3.721429, fooding:"https://lefooding.com/en/restaurants/debra",    web:"https://debragent.be/"},
+    {n:9,  name:"Door 73",   cat:"Sharing plates",                     price:"€€",  addr:"Hoogstraat 73, 9000 Gent",              lat:51.055242, lng:3.712448, fooding:"https://lefooding.com/en/restaurants/door-73",  web:"https://door73.be"},
+    {n:10, name:"Alberte",   cat:"Neo-bistro · wine bar",              price:"€",   addr:"Dendermondsesteenweg 78, 9000 Gent",    lat:51.055053, lng:3.742761, fooding:"https://lefooding.com/en/restaurants/alberte",  web:"https://www.alberte-gent.be"},
+    {n:11, name:"Bar Bask",  cat:"Basque · grill · seafood",           price:"€€",  addr:"Edward Pynaertkaai 115, 9000 Gent",     lat:51.041610, lng:3.740288, fooding:"https://lefooding.com/en/restaurants/bar-bask", web:"https://www.bask.be"},
+    {n:12, name:"Raaf",      cat:"Natural-wine neo-bistro",            price:"€",   addr:"Slachthuisstraat 96, 9000 Gent",        lat:51.052836, lng:3.738155, fooding:"https://lefooding.com/en/restaurants/raaf",     web:"https://www.raafgent.be"},
+    {n:13, name:"Martino",   cat:"Brasserie · since 1955",             price:"€",   addr:"Vlaanderenstraat 125, 9000 Gent",       lat:51.048920, lng:3.731264, fooding:"https://lefooding.com/en/restaurants/martino",  web:"https://snackbarmartino.be"}
+  ];
+
+  var map = L.map('map').setView([51.057, 3.725], 13);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    maxZoom: 19
+  }).addTo(map);
+
+  var markers = {};
+  var bounds = [];
+
+  spots.forEach(function(s){
+    var icon = L.divIcon({
+      className: '',
+      html: '<div class="pin"><span>' + s.n + '</span></div>',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30]
+    });
+    var links =
+      '<a href="' + s.web + '" target="_blank" rel="noopener">Restaurant website &#8599;</a>';
+    if (s.fooding) {
+      links =
+        '<a href="' + s.fooding + '" target="_blank" rel="noopener">Le Fooding review &#8599;</a>' +
+        links;
+    }
+    var html =
+      '<div class="gh-pop">' +
+        '<h3>' + s.name + '</h3>' +
+        '<div class="meta">' +
+          '<p class="cat">' + s.cat + '</p>' +
+          '<span class="price">' + s.price + '</span>' +
+        '</div>' +
+        '<p class="addr">' + s.addr + '</p>' +
+        '<div class="links">' + links + '</div>' +
+      '</div>';
+    var m = L.marker([s.lat, s.lng], {icon: icon}).addTo(map).bindPopup(html, {maxWidth: 280});
+    markers[s.n] = m;
+    bounds.push([s.lat, s.lng]);
+  });
+
+  map.fitBounds(bounds, {padding: [40, 40]});
+
+  var legend = document.getElementById('legend');
+  spots.forEach(function(s){
+    var chip = document.createElement('button');
+    chip.className = 'chip';
+    chip.type = 'button';
+    chip.innerHTML = '<span class="dot"></span>' + s.n + '. ' + s.name;
+    chip.addEventListener('click', function(){
+      map.setView([s.lat, s.lng], 15);
+      markers[s.n].openPopup();
+    });
+    legend.appendChild(chip);
+  });
+})();
+</script>
+</body>
+</html>
